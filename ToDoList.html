@@ -17,14 +17,20 @@
             color: red;
         }
 
-        /* select
+        table
         {
-            width: 25%;
-        } */
+            border:1px solid black; width: 100%; 
+            /* border-collapse:collapse; */
+        }
+
+        #Update
+        {
+            display: none;
+        }
     </style>
 </head>
 
-<body>
+<body onload="getIndex()" onbeforeunload='localStorage.removeItem("TaskIndex")'>
     <div class="container my-4">
     <h1 style="text-align: center;">To-Do List</h1>
     <p id="demo"></p>
@@ -32,20 +38,20 @@
         <div class="mb-3">
           <label class="form-label">Title:</label>
           <input type="text" class="form-control" id="ToDoTitle">
-          <!-- <span id="validTitle"></span> -->
+          <span id="validTitle"></span>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Description:</label>
           <textarea class="form-control" id="TodoDesc"></textarea>
-          <!-- <span id="validDesc"></span> -->
+          <span id="validDesc"></span>
         </div>
 
        
                 <div class="mb-3">
                     <label class="form-label">Start Date:</label>
                     <input type="date" class="form-control" id="sDate">
-                    <!-- <span id="validSDate"></span> -->
+                    <span id="validSDate"></span>
                 </div>
             
             
@@ -53,7 +59,7 @@
                 <div class="mb-3">
                     <label class="form-label">End Date:</label>
                     <input type="date" class="form-control" id="eDate">
-                    <!-- <span id="validEDate"></span> -->
+                    <span id="validEDate"></span>
                 </div>
             
       
@@ -61,32 +67,51 @@
         <div class="mb-3" id="dropdown">
             <label class="form-label">Status:</label>
             <select id="tStatus" class="form-select">
-                <option value="1">In Progress</option>
-                <option value="2">To do</option>
-                <option value="3">Completed</option>
+                <option value="In Progress">In Progress</option>
+                <option value="To Do" selected>To do</option>
+                <option value="Completed">Completed</option>
             </select>
         </div>
 
         <div style="text-align: center;">
-        <input type="button" class="btn btn-primary" onclick="getData()" value="Submit">
+        <input type="button" id="Submit" class="btn btn-success" onclick="setData()" value="Submit">
+        </div>
+        <br>
+        <div style="text-align: center;">
+            <input type="button" id="Update" class="btn btn-success" value="Update">
+        </div>
+
+        <div style="text-align: center;">
+            <input type="button" id="TaskList" class="btn btn-info" value="Show Task List" onclick="location.href = 'TaskList.html'">
         </div>
       </form>
       <br>
-      <table style="border:1px solid black; width: 100%;">
-          <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Status</th>
-          <th></th>
-          </tr>
-          <tbody id="TaskListTable">
-
-          </tbody>
-      </table>
+      <!-- <table id="TaskListTable">
+         <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th></th>
+                </tr>
+         </thead>
+         <tbody></tbody>
+      </table> -->
     </div>
-    
+    <script>
+        let d = new Date();
+        let day = String(d.getDate()).padStart(2,'0');
+        let month = String(d.getMonth() + 1).padStart(2,'0');
+        let year = d.getFullYear();
+        let today = year + "-" + month + "-" + day;
+        // console.log(today);
+        // console.log(d.getMonth());
+        document.getElementById("sDate").setAttribute("min",today);
+        document.getElementById("eDate").setAttribute("min",today);
+
+    </script>
     <script src ="ToDo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
