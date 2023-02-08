@@ -5,9 +5,10 @@ let endDate;
 let TaskStatus;
 
 
+
+//Add Task
 function setData()
 {
- 
     TaskTitle = document.getElementById("ToDoTitle").value;
     TaskDesc = document.getElementById("TodoDesc").value;
     startDate = document.getElementById("sDate").value;
@@ -16,108 +17,191 @@ function setData()
 
     if(validate())
     {
-        console.log(TaskTitle + TaskDesc + startDate + endDate + TaskStatus);
-        let TaskData = 
-        {
-            Title : TaskTitle,
-            Desc : TaskDesc,
-            StartDate : startDate,
-            EndDate : endDate,
-            Status : TaskStatus 
-        }
-
-        var myArr = [];
-        //var ListData = JSON.parse(window.localStorage.getItem('TData'));
+        var myArr;
         if(JSON.parse(window.localStorage.getItem('TData')) == null)
         {
             myArr = []; 
         }
         else
         {
-            myArr.push(JSON.parse(window.localStorage.getItem('TData')));
+            myArr = JSON.parse(window.localStorage.getItem('TData'));
         }
         
-        myArr.push(TaskData);
+        myArr.push(
+            {
+            Title : TaskTitle,
+            Desc : TaskDesc,
+            StartDate : startDate,
+            EndDate : endDate,
+            Status : TaskStatus
+            }
+        );
         window.localStorage.setItem('TData',JSON.stringify(myArr));
-        //document.getElementById("demo").innerHTML = window.localStorage.getItem('TData');
-
-        // window.localStorage.clear();
-        // document.getElementById("demo").innerHTML = window.localStorage.getItem('TData');
-
-        //getData();
+        document.getElementById("ToDoTitle").value = '';
+        document.getElementById("TodoDesc").value = '';
+        document.getElementById("sDate").value = '';
+        document.getElementById("eDate").value = '';
+        document.getElementById("tStatus").value = '';
+        window.location.href = "TaskList.html";
      }
     
 }
 
-function getData()
+//Show Task List
+//window.onload = ShowData();
+function ShowData()
 {
-    //var ListData = {};
-    //ListData = JSON.parse(window.localStorage.getItem('TData'));
-    //document.getElementById("demo").innerHTML=ListData;
-    var myArr = [];
-    if (JSON.parse(window.localStorage.getItem('TData')) == null)
+    //window.localStorage.clear();
+    var myArr;
+    if (JSON.parse(window.localStorage.getItem('TData')) === null)
     {
         myArr = [];
     }
     else
     {
-        myArr.push(JSON.parse(window.localStorage.getItem('TData')));
+        myArr = JSON.parse(window.localStorage.getItem('TData'));
     }
 
-    document.getElementById("demo").innerHTML = window.localStorage.getItem('TData');
-    console.log(myArr[0][0]['Title']);
-    // var table = '';
-    // for(var i=0 ; i < myArr.length; i++)
-    // {
-    //     table += '<tr>';
-    //     //table += '<td>' + myArr[i] + '</td>';
-    //     for(var j=0;j<myArr[i][j].length; j++)
-    //     {
-    //         table += '<td>' + myArr[i][j].Title + '</td>';
-    //         table += '<td>' + myArr[i][j].Desc + '</td>';
-    //         table += '<td>' + myArr[i][j].StartDate + '</td>';
-    //         table += '<td>' + myArr[i][j].EndDate + '</td>';
-    //         table += '<td>' + myArr[i][j].TaskStatus + '</td>';
-    //     }
-    //     table += '</tr>'
-    // }
-    //console.log(window.localStorage.getItem('TData'));
-    // document.getElementById("TaskListTable").innerHTML = table;
-    // console.log(table);
+    // console.log(window.localStorage.getItem('TData'));
+    // document.getElementById("demo").innerHTML = myArr;
+    
+    var data = "";
+    myArr.forEach(function(element,index)
+    {
+        data += '<tr>';
+        data += '<td>' + element.Title + '</td>';
+        data += '<td>' + element.Desc + '</td>';
+        data += '<td>' + element.StartDate + '</td>';
+        data += '<td>' + element.EndDate + '</td>';
+        data += '<td>' + element.Status + '</td>';
+        data += '<td><button class="btn btn-danger" onclick = deleteTask('+ index +')>Delete</button></td>';
+        data += '<td><button class="btn btn-info" onclick = checkIndex('+ index +')>Update</button></td>';
+        data += '</tr>';
+    });
+    //console.log(myArr);
+    document.querySelector("#TaskListTable tbody").innerHTML = data;
 }
 
-function validate()
+//Delete Task
+function deleteTask(index)
 {
-    var re = new RegExp('[0-9]');
-    if(TaskTitle == "")
+    var taskList;
+    if (JSON.parse(window.localStorage.getItem('TData')) == null)
     {
-        alert("Please enter task title!");
-        return false;
+        taskList = [];
+    }
+    else
+    {
+        taskList = JSON.parse(window.localStorage.getItem('TData'));
     }
 
-    if(re.test(TaskTitle))
+    taskList.splice(index,1);//at position 'index' remove 1 item
+    localStorage.setItem('TData',JSON.stringify(taskList));
+    ShowData();
+}
+
+
+function checkIndex(index)
+{
+    if (index != null)
     {
-        alert("Title should not contain any number!");
+        localStorage.setItem('TaskIndex',JSON.stringify(index));
+        window.location.href = "ToDoList.html";
+    }
+    else
+    {
+        window.location.href = "ToDoList.html";
+    }
+}
+
+function getIndex()
+{
+    var index = JSON.parse(localStorage.getItem('TaskIndex'));
+    if(index != null)
+    {
+        updateTask(index);
+    }
+}
+
+function updateTask(index)
+{
+    
+    document.getElementById("Submit").style.display = "none";
+    document.getElementById("Update").style.display = "block";
+    //location.href = "ToDoList.html";
+    var myData;ToDoTitle
+    if (JSON.parse(window.localStorage.getItem('TData')) == null)
+    {
+        myData = [];
+    }
+    else
+    {
+        myData = JSON.parse(window.localStorage.getItem('TData'));
+    }
+    
+    
+
+   document.getElementById("ToDoTitle").value = myData[index].Title;
+   document.getElementById("TodoDesc").value = myData[index].Desc;
+   document.getElementById("sDate").value = myData[index].StartDate;
+   document.getElementById("eDate").value = myData[index].EndDate;
+   document.getElementById("tStatus").value = myData[index].Status;
+
+
+   document.getElementById("Update").onclick = function()
+   {
+       if(validate())
+       {
+        myData[index].Title = document.getElementById("ToDoTitle").value;
+        myData[index].Desc = document.getElementById("TodoDesc").value ;
+        myData[index].StartDate = document.getElementById("sDate").value;
+        myData[index].EndDate = document.getElementById("eDate").value;
+        myData[index].Status = document.getElementById("tStatus").value;
+     
+        localStorage.setItem('TData',JSON.stringify(myData));
+
+        document.getElementById("ToDoTitle").value = '';
+        document.getElementById("TodoDesc").value = '';
+        document.getElementById("sDate").value = '';
+        document.getElementById("eDate").value = '';
+        document.getElementById("tStatus").value = '';
+
+        document.getElementById("Submit").style.display = "block";
+        document.getElementById("Update").style.display = "none";
+
+        window.localStorage.removeItem('TaskIndex');
+        window.location.href = "TaskList.html";
+
+       }
+   }
+}
+
+//Validate 
+function validate()
+{
+    if(TaskTitle == "")
+    {
+        document.getElementById("validTitle").innerHTML = "Please Enter Task Title!!";
         return false;
     }
+    
 
     if(TaskDesc == "")
     {
-        alert("Please enter task description!");
+        document.getElementById("validDesc").innerHTML = "Please Enter Task Description!!"
         return false;
     }
 
     if(startDate == "")
     {
-        alert("Please select start date!");
+        document.getElementById("validSDate").innerHTML ="Please select start date!";
         return false;
     }
 
     if(endDate == "")
     {
-        alert("Please select end date!");
+        document.getElementById("validEDate").innerHTML ="Please select end date!";
         return false;
     }
     return true;
 }
-
