@@ -17,10 +17,9 @@
 <body onload="ShowData()">
     <div class="container my-4">
     <h1 style="text-align: center;">Task List</h1>
-    <p ></p>
     <!-- <input type="button" onclick="ShowData()"/> -->
-    
-      <table id="TaskListTable">
+    <div style="text-align: center;"><span id="message" ></span></div>
+      <table id="taskTable">
          <thead>
             <tr>
                 <th>Title</th>
@@ -31,10 +30,10 @@
                 <th></th>
                 </tr>
          </thead>
-         <tbody></tbody>
+         <tbody id="TaskListTable"></tbody>
       </table>
       <br>
-      <input type="button" class="btn btn-success" onclick="location.href ='ToDoList.html'" value="Add Task" style="margin-left: 450px;">
+      <div style="text-align: center;"><input type="button" class="btn btn-success" onclick="location.href ='ToDoList.html'" value="Add Task"></div>
     </div>
 
     <script src ="ToDo.js"></script>
