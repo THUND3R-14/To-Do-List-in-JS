@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        crossorigin="anonymous">
     <title>To-Do List</title>
 
     <style>
-        input[type=date],#dropdown
-        {
+        input[type=date],
+        #dropdown {
             width: 40%;
         }
 
-        span
-        {
+        span,small {
             color: red;
         }
 
-        table
-        {
-            border:1px solid black; width: 100%; 
+        table {
+            border: 1px solid black;
+            width: 100%;
             /* border-collapse:collapse; */
         }
 
-        #Update
-        {
+        #Update {
             display: none;
         }
     </style>
@@ -32,61 +29,60 @@
 
 <body onload="getIndex()" onbeforeunload='localStorage.removeItem("TaskIndex")'>
     <div class="container my-4">
-    <h1 style="text-align: center;">To-Do List</h1>
-    <p id="demo"></p>
-    <form>
-        <div class="mb-3">
-          <label class="form-label">Title:</label>
-          <input type="text" class="form-control" id="ToDoTitle">
-          <span id="validTitle"></span>
-        </div>
+        <h1 style="text-align: center;">To-Do List</h1>
+        <p id="demo"></p>
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Title<span>*</span>:</label>
+                <input type="text" class="form-control" id="ToDoTitle">
+                <small id="validTitle"></small>
+            </div>
 
-        <div class="mb-3">
-          <label class="form-label">Description:</label>
-          <textarea class="form-control" id="TodoDesc"></textarea>
-          <span id="validDesc"></span>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Description<span>*</span>:</label>
+                <textarea class="form-control" id="TodoDesc"></textarea>
+                <small id="validDesc"></small>
+            </div>
 
-       
-                <div class="mb-3">
-                    <label class="form-label">Start Date:</label>
-                    <input type="date" class="form-control" id="sDate">
-                    <span id="validSDate"></span>
-                </div>
-            
-            
-            
-                <div class="mb-3">
-                    <label class="form-label">End Date:</label>
-                    <input type="date" class="form-control" id="eDate">
-                    <span id="validEDate"></span>
-                </div>
-            
-      
+            <div class="mb-3">
+                <label class="form-label">Start Date<span>*</span>:</label>
+                <input type="date" class="form-control" id="sDate">
+                <small id="validSDate"></small>
+            </div>
 
-        <div class="mb-3" id="dropdown">
-            <label class="form-label">Status:</label>
-            <select id="tStatus" class="form-select">
-                <option value="In Progress">In Progress</option>
-                <option value="To Do" selected>To do</option>
-                <option value="Completed">Completed</option>
-            </select>
-        </div>
 
-        <div style="text-align: center;">
-        <input type="button" id="Submit" class="btn btn-success" onclick="setData()" value="Submit">
-        </div>
+            <div class="mb-3">
+                <label class="form-label">End Date<span>*</span>:</label>
+                <input type="date" class="form-control" id="eDate">
+                <small id="validEDate"></small>
+            </div>
+
+
+
+            <div class="mb-3" id="dropdown">
+                <label class="form-label">Status:</label>
+                <select id="tStatus" class="form-select">
+                    <option value="In Progress">In Progress</option>
+                    <option value="To Do" selected>To do</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+
+            <div style="text-align: center;">
+                <input type="button" id="Submit" class="btn btn-success" onclick="setData()" value="Submit">
+            </div>
+            <br>
+            <div style="text-align: center;margin-left: 520px;">
+                <input type="button" id="Update" class="btn btn-success" value="Update">
+            </div>
+            <br>
+            <div style="text-align: center;">
+                <input type="button" id="TaskList" class="btn btn-info" value="Show Task List"
+                    onclick="location.href = 'TaskList.html'">
+            </div>
+        </form>
         <br>
-        <div style="text-align: center;">
-            <input type="button" id="Update" class="btn btn-success" value="Update">
-        </div>
-
-        <div style="text-align: center;">
-            <input type="button" id="TaskList" class="btn btn-info" value="Show Task List" onclick="location.href = 'TaskList.html'">
-        </div>
-      </form>
-      <br>
-      <!-- <table id="TaskListTable">
+        <!-- <table id="TaskListTable">
          <thead>
             <tr>
                 <th>Title</th>
@@ -102,20 +98,27 @@
     </div>
     <script>
         let d = new Date();
-        let day = String(d.getDate()).padStart(2,'0');
-        let month = String(d.getMonth() + 1).padStart(2,'0');
+        let day = String(d.getDate()).padStart(2, '0');
+        let month = String(d.getMonth() + 1).padStart(2, '0');
         let year = d.getFullYear();
         let today = year + "-" + month + "-" + day;
         // console.log(today);
         // console.log(d.getMonth());
-        document.getElementById("sDate").setAttribute("min",today);
-        document.getElementById("eDate").setAttribute("min",today);
+        document.getElementById("sDate").setAttribute("min", today);
+        document.getElementById("eDate").setAttribute("min", today);
 
     </script>
-    <script src ="ToDo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    
+    <script src="ToDo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
 </body>
+
 </html>
